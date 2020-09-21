@@ -1,11 +1,8 @@
 package com.az.tutorial.controller;
 
 
-import com.az.turorial.model.Employee;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.az.tutorial.model.Employee;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +21,17 @@ public class EmployeeController {
     }
 
 
+    @PostMapping
+    public Employee create(@RequestBody Employee user) {
+        employees.add(user);
+        return user;
+    }
+
+
     private static List<Employee> createList(){
         List<Employee> tempEmployee = new ArrayList<>();
+
+        /*
 
         Employee employee1 = new Employee("1", "Azad", "java Programmer", "300,000");
         Employee employee2 = new Employee("2", "Enrico", "python Programmer", "400,000");
@@ -38,7 +44,7 @@ public class EmployeeController {
         tempEmployee.add(employee3);
         tempEmployee.add(employee4);
         tempEmployee.add(employee5);
-
+*/
         return tempEmployee;
     }
 
