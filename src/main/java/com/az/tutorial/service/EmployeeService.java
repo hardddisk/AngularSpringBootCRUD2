@@ -2,10 +2,13 @@ package com.az.tutorial.service;
 
 
 import com.az.tutorial.dto.EmployeeRepository;
+import com.az.tutorial.exception.RecordNotFoundException;
 import com.az.tutorial.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,8 +18,19 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
 
 
-    public Employee getEmployeeById(Long id)
+    public List<Employee> getAllEmployees()
     {
+        List<Employee> employeeList = (List<Employee>) employeeRepository.findAll();
+
+        if(employeeList.size() > 0) {
+            return employeeList;
+        } else {
+            return new ArrayList<Employee>();
+        }
+    }
+
+
+    public Employee getEmployeeById(Long id) {
         Optional<Employee> employee = employeeRepository.findById(id);
 
         if(employee.isPresent()) {
@@ -27,8 +41,7 @@ public class EmployeeService {
     }
 
 
-    public Employee createOrUpdateEmployee(Employee entity)
-    {
+    public Employee createOrUpdateEmployee(Employee entity) {
         Optional<Employee> employee = employeeRepository.findById(entity.getId());
 
         if(employee.isPresent()) {
@@ -41,11 +54,22 @@ public class EmployeeService {
             newEntity = employeeRepository.save(newEntity);
 
             return newEntity;
-            
+
         } else {
             entity = employeeRepository.save(entity);
 
             return entity;
+        }
+    }
+
+
+    public void deleteEmployeeById(Long id) throws RecordNotFoundException {
+        Optional<Employee> employee = employeeRepository.findById(id);
+
+        if(employee.isPresent()) {
+            employeeRepository.deleteById(id);
+        } else {
+            throw new RecordNotFoundException("No employee record exist for given id");
         }
     }
 
