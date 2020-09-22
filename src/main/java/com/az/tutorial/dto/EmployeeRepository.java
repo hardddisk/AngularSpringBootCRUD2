@@ -8,13 +8,4 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-
-    List<Employee> findByName(String name);
-
-    Optional<Employee> findById(Long id);
-
-
-
-
-}
+public interface EmployeeRepository extends CrudRepository<Employee, Long> { }
